@@ -12,32 +12,10 @@ namespace MaximovInk.NumbersSort {
         [SerializeField]
         private Transform m_NumbersParent;
 
-        public bool init;
-
-        private static bool init_ok = false;
-
         public int count { get; private set; } = 0;
 
         private void Start()
         {
-            if (init)
-            {
-                if (init_ok)
-                {
-                    Add(2);
-                    Add(5);
-                    Add(4);
-                    Add(1);
-                }
-                else
-                {
-                    Add(4);
-                    Add(3);
-                    Add(1);
-                    init_ok = true;
-                }
-            }
-
             UpdateCounter();
         }
 
