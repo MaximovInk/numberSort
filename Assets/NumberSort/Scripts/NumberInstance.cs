@@ -19,5 +19,12 @@ namespace MaximovInk.NumbersSort
             m_Image.sprite = 
                 NumberSortManager.Instance.GetSprite(Value);
         }
+
+        public void SetVisible(bool visible)
+        {
+            m_Image.sprite =
+               NumberSortManager.Instance.GetSprite(Value);
+            m_Image.color = visible ? Color.white : Color.clear;
+        }
     }
 }

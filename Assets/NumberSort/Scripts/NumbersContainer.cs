@@ -2,6 +2,9 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using DG.Tweening;
+using System.Collections;
+using System;
 
 namespace MaximovInk.NumbersSort {
     public class NumbersContainer : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -40,6 +43,57 @@ namespace MaximovInk.NumbersSort {
             NumberSortManager.Instance.CheckComplete();
         }
 
+        private const float ADD_DURATION = 0.15F;
+        private const float MOVING_DURATION = 0.15F;
+
+        public bool Add(int value, Vector2 initPos)
+        {
+            if (value <= 0) return false;
+            if (m_NumbersParent.childCount >= 4) return false;
+
+            var num1 = Instantiate(NumberSortManager.Instance.NumberInstancePrefab, m_NumbersParent);
+
+            num1.Value = value;
+
+            num1.transform.SetAsFirstSibling();
+            num1.SetVisible(false);
+
+            UpdateCounter();
+
+            var canvas = NumberSortManager.Instance.canvas;
+            var numAnim = Instantiate(NumberSortManager.Instance.NumberInstancePrefab, canvas.transform);
+            numAnim.transform.localPosition = initPos;
+            numAnim.Value = value;
+            numAnim.name = "Anim";
+            numAnim.SetVisible(true);
+
+            ExecuteAfterFrame(() =>
+            {
+                var tween = numAnim.transform.DOMove(num1.transform.position, ADD_DURATION);
+
+                tween.onKill += () =>
+                {
+                    Destroy(numAnim.gameObject);
+                    num1.SetVisible(true);
+                };
+            });
+
+
+            return true;
+        }
+
+        private void ExecuteAfterFrame(Action action)
+        {
+            StartCoroutine(ExecuteAfterFrameCoorutine(action));
+        }
+
+        IEnumerator ExecuteAfterFrameCoorutine(Action action)
+        {
+            yield return  null;
+
+            action.Invoke();
+        }
+
         public bool Add(int value)
         {
             if (value <= 0) return false;
@@ -67,65 +121,68 @@ namespace MaximovInk.NumbersSort {
 
             if (end != null && end != this)
             {
-                bool can = end.Add(val);
+                bool can = end.Add(val, movingImage.localPosition);
                 if (!can)
-                    Add(val);
+                    Add(val, movingImage.localPosition);
             }
             else
-                Add(val);
+                Add(val, movingImage.localPosition);
+
+            movingImage.DOKill();
 
             Destroy(movingImage.gameObject);
 
             UpdateCounter();
         }
 
+        private static Vector2 mouseCanvasPos = Vector2.zero;
+
         public void OnDrag(PointerEventData eventData)
         {
             if(isDrag)
             {
-
-                /*
-                 
-                  var canvas = NumberSortManager.Instance.canvas;
-                 Vector2 mousePos = Input.mousePosition;
-
-                 // Получаем размеры экрана
-                 Vector2 screenSize = new Vector2(Screen.width, Screen.height);
-
-                 // Получаем размеры Canvas в пикселях
-                 Vector2 canvasSize = canvas.GetComponent<RectTransform>().sizeDelta;
-
-                 // Вычисляем соотношение размеров экрана и Canvas
-                 float canvasScale = canvasSize.y / screenSize.y;
-
-                 // Вычисляем позицию мыши в координатах Canvas
-                 Vector2 canvasPos = (mousePos / canvasScale) - (canvasSize / 2f);
-
-                 movingImage.transform.localPosition = canvasPos;
-                 */
-
                 var canvas = NumberSortManager.Instance.canvas;
                 Vector2 mousePos = Input.mousePosition;
-                // Получаем размеры экрана
                 Vector2 screenSize = new Vector2(Screen.width, Screen.height);
-                // Получаем размеры Canvas в пикселях
                 Vector2 canvasSize = canvas.GetComponent<RectTransform>().sizeDelta;
-                // Получаем соотношение сторон экрана
                 float screenAspect = screenSize.x / screenSize.y;
-                // Получаем соотношение сторон Canvas
                 float canvasAspect = canvasSize.x / canvasSize.y;
-                // Вычисляем поправку для координат мыши
                 float correction = canvasAspect / screenAspect;
-                // Вычисляем позицию мыши в координатах Canvas
-                Vector2 canvasPos = Vector2.zero;
-                RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, mousePos, Camera.main, out canvasPos);
-                // Корректируем позицию мыши в зависимости от соотношения сторон
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    canvas.transform as RectTransform,
+                    mousePos, Camera.main,
+                    out Vector2 canvasPos
+                    );
                 if (canvasAspect > screenAspect)
                     canvasPos.y *= correction;
                 else
                     canvasPos.x /= correction;
-                // Устанавливаем позицию movingImage в полученных координатах
-                movingImage.transform.localPosition = canvasPos;
+
+                var currentRect = (this.transform as RectTransform);
+
+                var halfHeight = currentRect.rect.height / 2f;
+                var halfWidth = currentRect.rect.width / 2f;
+
+                mouseCanvasPos = canvasPos;
+
+                var newPos = canvasPos;
+                newPos.y = currentRect.transform.localPosition.y + halfHeight;
+
+
+                var end = eventData.pointerCurrentRaycast.gameObject?.GetComponentInParent<NumbersContainer>();
+
+                if (end != null)
+                {
+                    var delta = 1f-Mathf.Abs(canvasPos.x - end.transform.localPosition.x)/ halfWidth;
+
+                    newPos.y -= halfHeight * delta / 5f;
+                    newPos.x = end.transform.localPosition.x;
+
+                    newPos.x = Mathf.Lerp(newPos.x, mouseCanvasPos.x, delta/5f);
+                }
+
+                if(movingImage != null)
+                    movingImage.transform.DOLocalMove(newPos, MOVING_DURATION);
             }
         }
 

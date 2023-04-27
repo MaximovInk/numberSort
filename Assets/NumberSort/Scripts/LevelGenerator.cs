@@ -32,7 +32,6 @@ namespace MaximovInk.NumbersSort
             for (int i = 0; i < integers.Count;)
             {
                 var index = Random.Range(0, containers.Count);
-                Debug.Log(containers[index].count);
                 while (containers[index].count >= 4 && iterations < save_limit)
                 {
                     index = Random.Range(0, containers.Count); iterations++;
@@ -40,7 +39,6 @@ namespace MaximovInk.NumbersSort
                 containers[index].Add(integers[i]);
                 integers.RemoveAt(i);
             }
-            Debug.Log(iterations);
 
         }
 
@@ -48,66 +46,21 @@ namespace MaximovInk.NumbersSort
         {
             int[] numbers = new int[Random.Range(2, 5)];
             int sum = 0;
-
-            // Генерируем случайные числа от 1 до 6
             for (int i = 0; i < numbers.Length; i++)
             {
                 numbers[i] = Random.Range(1, 7);
                 sum += numbers[i];
             }
-
-            // Используем алгоритм перебора, чтобы получить числа с суммой равной 10
             while (sum != 10)
             {
-                // Определяем случайный индекс массива
                 int index = Random.Range(0, numbers.Length);
-
-                // Вычисляем разность между числом в этом индексе и новым случайным числом
                 int diff = Random.Range(1, 7) - numbers[index];
-
-                // Обновляем значение числа в массиве и сумму
-                if (numbers[index] + diff > 0) // проверка на отрицательное число
+                if (numbers[index] + diff > 0)
                 {
                     numbers[index] += diff;
                     sum += diff;
                 }
             }
-
-            Debug.Log($"Получены {numbers.Length} случайных числа от 1 до 6, сумма которых равна 10: "
-                + string.Join(", ", numbers));
-
-            return numbers;
-        }
-
-        private int[] GenerateNums1()
-        {
-            int[] numbers = new int[4];
-            int sum = 0;
-
-            // Генерируем случайные числа от 1 до 6
-            for (int i = 0; i < numbers.Length; i++)
-            {
-                numbers[i] = Random.Range(1, 7);
-                sum += numbers[i];
-            }
-
-            // Используем алгоритм перебора, чтобы получить числа с суммой равной 10
-            while (sum != 10)
-            {
-                // Определяем случайный индекс массива
-                int index = Random.Range(0, numbers.Length);
-
-                // Вычисляем разность между числом в этом индексе и новым случайным числом
-                int diff = Random.Range(1, 7) - numbers[index];
-
-                // Обновляем значение числа в массиве и сумму
-                numbers[index] += diff;
-                sum += diff;
-            }
-
-            Debug.Log("Получены 4 случайных числа от 1 до 6, сумма которых равна 10: "
-                + numbers[0] + ", " + numbers[1] + ", " + numbers[2] + ", " + numbers[3]);
-
             return numbers;
         }
     }
