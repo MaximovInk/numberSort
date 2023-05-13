@@ -66,7 +66,7 @@ namespace MaximovInk.NumbersSort {
             numAnim.name = "Anim";
             numAnim.SetVisible(true);
 
-            ExecuteAfterFrame(() =>
+            LevelManager.ExecuteAfterFrame(() =>
             {
                 var tween = numAnim.transform.DOMove(num1.transform.position, ADD_DURATION);
 
@@ -79,18 +79,6 @@ namespace MaximovInk.NumbersSort {
 
 
             return true;
-        }
-
-        private void ExecuteAfterFrame(Action action)
-        {
-            StartCoroutine(ExecuteAfterFrameCoorutine(action));
-        }
-
-        IEnumerator ExecuteAfterFrameCoorutine(Action action)
-        {
-            yield return  null;
-
-            action.Invoke();
         }
 
         public bool Add(int value)
@@ -114,6 +102,8 @@ namespace MaximovInk.NumbersSort {
 
         public void OnEndDrag(PointerEventData eventData)
         {
+            if (movingImage == null) return;
+
             var end = eventData.pointerCurrentRaycast.gameObject?.GetComponentInParent<NumbersContainer>();
 
             var val = movingImage.GetComponent<NumberInstance>().Value;

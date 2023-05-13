@@ -51,6 +51,11 @@ namespace MaximovInk.NumbersSort
                 complete = false;
             }
 
+            if(complete)
+            {
+                LevelManager.Instance.CompleteLevel();
+            }
+
             m_CompleteInfo.text = complete ? "Complete!" : "Not completed";
             m_CompleteInfo.color = complete ? Color.green : Color.white;
         }
