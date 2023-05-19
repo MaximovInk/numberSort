@@ -21,7 +21,6 @@ namespace MaximovInk.NumbersSort
         {
             SoundManager.Instance.PlaySound(SoundManager.SoundPlayType.Fail);
 
-
             //FAIL MENU
 
             ExecuteAfterDelay(() =>
@@ -32,9 +31,7 @@ namespace MaximovInk.NumbersSort
 
         public void CompleteLevel()
         {
-            return;
             SoundManager.Instance.PlaySound(SoundManager.SoundPlayType.Complete);
-
 
             //Complete MENU
 

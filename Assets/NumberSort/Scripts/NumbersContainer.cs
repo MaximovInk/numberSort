@@ -14,16 +14,20 @@ namespace MaximovInk.NumbersSort {
         [SerializeField]
         private Transform m_NumbersParent;
 
-        public int count { get; private set; } = 0;
+        public int Count { get; private set; } = 0;
 
         private void Start()
         {
             UpdateCounter();
         }
 
+        public int SlotsLeft { get; private set; } = 0;
+
         private void UpdateCounter()
         {
             var nums = GetComponentsInChildren<NumberInstance>();
+            SlotsLeft = 4 - nums.Length;
+
             int count = 0;
             for (int i = 0; i < nums.Length; i++)
             {
@@ -37,9 +41,10 @@ namespace MaximovInk.NumbersSort {
             else
                 m_CountText.color = Color.red;
 
-            this.count = count;
+            Count = count;
 
-            NumberSortManager.Instance.CheckComplete();
+            if(LevelGenerator.Instance.IsGenerated)
+                NumberSortManager.Instance.CheckComplete();
         }
 
         private const float ADD_DURATION = 0.15F;
@@ -77,7 +82,7 @@ namespace MaximovInk.NumbersSort {
                 };
             });
 
-
+            NumberSortManager.Instance.MakeStep();
             return true;
         }
 
@@ -93,6 +98,7 @@ namespace MaximovInk.NumbersSort {
 
             UpdateCounter();
 
+            NumberSortManager.Instance.MakeStep();
             return true;
         }
 

@@ -9,7 +9,7 @@ public class SoundButton : MonoBehaviour
 
     private Button button;
 
-    private void Awake()
+    private void Start()
     {
         button = GetComponent<Button>();
         button.onClick.AddListener(() => {

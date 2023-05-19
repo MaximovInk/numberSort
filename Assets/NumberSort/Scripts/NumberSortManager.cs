@@ -21,6 +21,12 @@ namespace MaximovInk.NumbersSort
         [SerializeField]
         private TextMeshProUGUI m_CompleteInfo;
 
+        [SerializeField]
+        private TextMeshProUGUI m_StepsText;
+
+        public int LevelMaxSteps = 20;
+        private int LevelStepsCounter = 0;
+
         private void InitDictionary()
         {
             for (int i = 0; i < spritesInit.Length; i++)
@@ -38,14 +44,27 @@ namespace MaximovInk.NumbersSort
             return sprites[index];
         }
 
+        public void SetMaxSteps(int steps)
+        {
+            LevelMaxSteps = steps;
+        }
+
+        public void MakeStep()
+        {
+            if(LevelGenerator.Instance.IsGenerated)
+                LevelStepsCounter++;
+        }
+
         public void CheckComplete()
         {
+            m_StepsText.text = $"Steps left: {LevelMaxSteps - LevelStepsCounter}";
+
             var containers = GetComponentsInChildren<NumbersContainer>();
 
             bool complete = true; 
             foreach ( var container in containers )
             {
-                if (container.count == 10 || container.count == 0)
+                if (container.Count == 10 || container.Count == 0)
                     continue;
 
                 complete = false;
@@ -54,6 +73,11 @@ namespace MaximovInk.NumbersSort
             if(complete)
             {
                 LevelManager.Instance.CompleteLevel();
+            }
+            else
+            {
+                if (LevelStepsCounter > LevelMaxSteps)
+                    LevelManager.Instance.FailLevel();
             }
 
             m_CompleteInfo.text = complete ? "Complete!" : "Not completed";
