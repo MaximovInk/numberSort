@@ -31,6 +31,16 @@ namespace MaximovInk.NumbersSort
             AudioSource.clip = BackgroundClip;
         }
 
+        public void ToggleAudio()
+        {
+            AudioSource.volume = AudioSource.volume > 0f ? 0 : 1f;
+        }
+
+        public bool AudioIsEnabled()
+        {
+            return AudioSource.volume > 0f;
+        }
+
         public void PlaySound(SoundPlayType type)
         {
             if (backgroundIsPlaying && type == SoundPlayType.Background)
