@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MaximovInk.NumbersSort
@@ -14,25 +14,21 @@ namespace MaximovInk.NumbersSort
         {
             MakeContainers();
 
-
             List<int> integers = new List<int>();
-
-
 
             for (int i = 0; i < containers.Count - 1; i++)
             {
                 var nums = GenerateNums();
                 for (int j = 0; j < nums.Length; j++)
                 {
-                    integers.Add(nums[j]);
+                    //integers.Add(nums[j]);
+                    containers[i].Add(nums[j]);
                 }
             }
 
-
-
             int iterations = 0;
             int save_limit = containers.Count * 4 * 4;
-            for (int i = 0; i < integers.Count;)
+            for (int i = 0; i < integers.Count; i++)
             {
                 var index = Random.Range(0, containers.Count);
                 while (containers[index].count >= 4 && iterations < save_limit)
@@ -42,8 +38,6 @@ namespace MaximovInk.NumbersSort
                 containers[index].Add(integers[i]);
                 integers.RemoveAt(i);
             }
-
-
 
         }
 
@@ -55,29 +49,35 @@ namespace MaximovInk.NumbersSort
             }
         }
 
-
-        
-         
         private int[] GenerateNums()
         {
-            int[] numbers = new int[Random.Range(2, 5)];
-            int sum = 0;
-            for (int i = 0; i < numbers.Length; i++)
+            List<int> numbers = new List<int>();
+
+            int firstNumber = Random.Range(1, 7);
+
+            numbers.Add(firstNumber);
+
+            int sumToGenerate = 10 - firstNumber;
+
+            int slotLeft = 3;
+
+            while(sumToGenerate > 0)
             {
-                numbers[i] = Random.Range(1, 7);
-                sum += numbers[i];
-            }
-            while (sum != 10)
-            {
-                int index = Random.Range(0, numbers.Length);
-                int diff = Random.Range(1, 7) - numbers[index];
-                if (numbers[index] + diff > 0)
+                if(slotLeft < 2)
                 {
-                    numbers[index] += diff;
-                    sum += diff;
+                    numbers.Add(sumToGenerate);
+
+                    break;
                 }
+                slotLeft--;
+
+                int num = Random.Range(1, Mathf.Min(sumToGenerate, 7));
+                sumToGenerate -= num;
+                numbers.Add(num);
             }
-            return numbers;
+
+
+            return numbers.ToArray();
         }
          
     }
