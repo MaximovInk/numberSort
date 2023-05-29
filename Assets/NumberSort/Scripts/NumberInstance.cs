@@ -9,6 +9,8 @@ namespace MaximovInk.NumbersSort
 
         private Image m_Image;
 
+        public bool isUnknown;
+
         private void Awake()
         {
             m_Image = GetComponent<Image>();
@@ -16,15 +18,24 @@ namespace MaximovInk.NumbersSort
 
         private void Start()
         {
-            m_Image.sprite = 
-                NumberSortManager.Instance.GetSprite(Value);
+            UpdateSprite();
         }
 
         public void SetVisible(bool visible)
         {
-            m_Image.sprite =
-               NumberSortManager.Instance.GetSprite(Value);
+            UpdateSprite();
+
             m_Image.color = visible ? Color.white : Color.clear;
+        }
+
+        private void UpdateSprite()
+        {
+            if (isUnknown)
+                m_Image.sprite =
+                   NumberSortManager.Instance.UnknownNumber;
+            else
+                m_Image.sprite =
+               NumberSortManager.Instance.GetSprite(Value);
         }
     }
 }

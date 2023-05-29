@@ -45,6 +45,8 @@ namespace MaximovInk.NumbersSort {
 
             if(LevelGenerator.Instance.IsGenerated)
                 NumberSortManager.Instance.CheckComplete();
+
+
         }
 
         private const float ADD_DURATION = 0.15F;
@@ -86,12 +88,13 @@ namespace MaximovInk.NumbersSort {
             return true;
         }
 
-        public bool Add(int value)
+        public bool Add(int value, bool secret = false)
         {
             if (value <= 0) return false;
             if (m_NumbersParent.childCount >= 4) return false;
 
             var num1 = Instantiate(NumberSortManager.Instance.NumberInstancePrefab, m_NumbersParent);
+            num1.isUnknown = secret;
             num1.Value = value;
 
             num1.transform.SetAsFirstSibling();
@@ -126,6 +129,16 @@ namespace MaximovInk.NumbersSort {
             movingImage.DOKill();
 
             Destroy(movingImage.gameObject);
+
+            var nums = GetComponentsInChildren<NumberInstance>();
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (i == 0 && nums[i].isUnknown)
+                {
+                    nums[i].isUnknown = false;
+                    nums[i].SetVisible(true);
+                }
+            }
 
             UpdateCounter();
         }

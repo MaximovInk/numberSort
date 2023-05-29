@@ -12,7 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f629720f48a00d7438f814ca73a2daa9, type: 3}
   m_Name: LevelDatabase
   m_EditorClassIdentifier: 
-  LevelData:
-    Containers: 
-    Total: 0
-    Goal: 0
+  LevelDatas: []

@@ -234,7 +234,5 @@ namespace MaximovInk.NumbersSort
 
             return numbers.ToArray();
         }
-
-
     }
 }

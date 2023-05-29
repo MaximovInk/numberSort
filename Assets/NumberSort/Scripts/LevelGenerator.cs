@@ -126,14 +126,20 @@ namespace MaximovInk.NumbersSort
 
                 findGoodCount++;
             }
-            
 
+            int containerForUnknownIndex = Random.Range(0, containers.Count);
             //Apply mixed numbers to containers
             for (int i = 0; i < containersForMix.Length; i++)
             {
+                
+
                 for (int j = 0; j < containersForMix[i].nums.Count; j++)
                 {
-                    containers[i].Add(containersForMix[i].nums[j]);
+                    bool secret = false;
+                    if (containerForUnknownIndex == i && containersForMix[i].nums.Count > 1 && j == containersForMix[i].nums.Count-2)
+                        secret = true;
+
+                    containers[i].Add(containersForMix[i].nums[j], secret);
                 }
             }
 

@@ -11,6 +11,8 @@ namespace MaximovInk.NumbersSort
 
         private Dictionary<int, Sprite> sprites = new Dictionary<int, Sprite>();
 
+        public Sprite UnknownNumber;
+
         public NumberInstance NumberInstancePrefab { get => m_NumberInstancePrefab; }
 
         public Canvas canvas;

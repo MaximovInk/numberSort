@@ -485,6 +485,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BliskCount: 4
+  CurrentLevel: 0
 --- !u!1 &200961725
 GameObject:
   m_ObjectHideFlags: 0
@@ -1814,6 +1815,7 @@ MonoBehaviour:
   - {fileID: -139987821, guid: 0cf3de8bb5ec76e4d8c0b0f4d0a53f8c, type: 3}
   - {fileID: -1982792341, guid: 0cf3de8bb5ec76e4d8c0b0f4d0a53f8c, type: 3}
   - {fileID: 1586953526, guid: 0cf3de8bb5ec76e4d8c0b0f4d0a53f8c, type: 3}
+  UnknownNumber: {fileID: 1586953526, guid: 0cf3de8bb5ec76e4d8c0b0f4d0a53f8c, type: 3}
   canvas: {fileID: 830725260}
   m_NumberInstancePrefab: {fileID: 7316689701484569579, guid: b8cb6810fd1939247b41ec2627d9b730, type: 3}
   m_CompleteInfo: {fileID: 2089540538}
