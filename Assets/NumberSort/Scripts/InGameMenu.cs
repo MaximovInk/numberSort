@@ -1,32 +1,35 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class InGameMenu : MonoBehaviour
+namespace MaximovInk.NumbersSort
 {
-    public GameObject pausePanel;
-
-    public void HomeAction()
+    public class InGameMenu : MonoBehaviour
     {
-        SceneManager.LoadScene(0);
-        Time.timeScale = 1;
-    }
+        public GameObject pausePanel;
 
-    public void Pause()
-    {
-        Time.timeScale = 0;
-        pausePanel.SetActive(true);
-    }
+        public void HomeAction()
+        {
+            SceneManager.LoadScene(0);
+            Time.timeScale = 1;
+        }
 
-    public void UnPause()
-    {
-        Time.timeScale = 1;
-        pausePanel.SetActive(false);
-    }
+        public void Pause()
+        {
+            Time.timeScale = 0;
+            pausePanel.SetActive(true);
+        }
 
-    public void Restart()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        Time.timeScale = 1;
-    }
+        public void UnPause()
+        {
+            Time.timeScale = 1;
+            pausePanel.SetActive(false);
+        }
 
+        public void Restart()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            Time.timeScale = 1;
+        }
+
+    }
 }

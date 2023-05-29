@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace MaximovInk.NumbersSort
 {
+   
+
     public class LevelGenerator : MonoBehaviourSingleton<LevelGenerator>
     {
         public int BliskCount = 3;
@@ -28,6 +30,8 @@ namespace MaximovInk.NumbersSort
         }
 
         public bool IsGenerated { get; private set; } = false;
+
+        public int CurrentLevel = 0;
 
         private void Awake()
         {

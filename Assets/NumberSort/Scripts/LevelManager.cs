@@ -41,7 +41,6 @@ namespace MaximovInk.NumbersSort
             }, 0.5f);
         }
 
-
         public NumbersContainer AddContainer()
         {
             var container = Instantiate(numbersContainerPrefab, parent);
