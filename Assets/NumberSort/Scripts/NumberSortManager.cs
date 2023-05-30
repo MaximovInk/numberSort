@@ -26,6 +26,8 @@ namespace MaximovInk.NumbersSort
         [SerializeField]
         private TextMeshProUGUI m_StepsText;
 
+
+
         public int LevelMaxSteps = 20;
         private int LevelStepsCounter = 0;
 
@@ -59,7 +61,7 @@ namespace MaximovInk.NumbersSort
 
         public void CheckComplete()
         {
-            m_StepsText.text = $"Steps left: {LevelMaxSteps - LevelStepsCounter}";
+            m_StepsText.text = $"Steps left: {Mathf.Max(0, LevelMaxSteps - LevelStepsCounter)}";
 
             var containers = GetComponentsInChildren<NumbersContainer>();
 
@@ -78,7 +80,7 @@ namespace MaximovInk.NumbersSort
             }
             else
             {
-                if (LevelStepsCounter > LevelMaxSteps)
+                if (LevelStepsCounter >= LevelMaxSteps)
                     LevelManager.Instance.FailLevel();
             }
 

@@ -46,6 +46,10 @@ namespace MaximovInk.NumbersSort
             if (backgroundIsPlaying && type == SoundPlayType.Background)
                return;
 
+            if (AudioSource == null) return;
+            if (FailClip == null) return;
+            if (CompleteClip == null) return;
+
             //NOT GOOD BUT WORKS
             switch (type)
             {
@@ -54,6 +58,7 @@ namespace MaximovInk.NumbersSort
                     backgroundIsPlaying = true;
                     break;
                 case SoundPlayType.Fail:
+                   
                     AudioSource.PlayOneShot(FailClip);
                     break;
                 case SoundPlayType.Complete:

@@ -12,6 +12,11 @@ namespace MaximovInk.NumbersSort
         [SerializeField]
         private NumbersContainer numbersContainerPrefab;
 
+        [SerializeField]
+        private GameObject FailMenu;
+        [SerializeField]
+        private GameObject CompleteMenu;
+
         private void Awake()
         {
             SoundManager.Instance.PlaySound(SoundManager.SoundPlayType.Background);
@@ -23,10 +28,15 @@ namespace MaximovInk.NumbersSort
 
             //FAIL MENU
 
-            ExecuteAfterDelay(() =>
+            FailMenu.SetActive(true);
+            Time.timeScale = 0;
+
+            /*
+             ExecuteAfterDelay(() =>
             { 
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }, 0.5f);
+             */
         }
 
         public void CompleteLevel()
@@ -35,10 +45,15 @@ namespace MaximovInk.NumbersSort
 
             //Complete MENU
 
-            ExecuteAfterDelay(() =>
-            {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            }, 0.5f);
+            CompleteMenu.SetActive(true);
+            Time.timeScale = 0;
+
+            /*
+              ExecuteAfterDelay(() =>
+             {
+                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+             }, 0.5f);
+             */
         }
 
         public NumbersContainer AddContainer()
