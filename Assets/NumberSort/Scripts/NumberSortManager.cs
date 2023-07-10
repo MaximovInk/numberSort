@@ -2,14 +2,14 @@
 using TMPro;
 using UnityEngine;
 
-namespace MaximovInk.NumbersSort
+namespace MaximovInk.NumberSort
 {
     public class NumberSortManager : MonoBehaviourSingleton<NumberSortManager>
     {
         [SerializeField]
         private Sprite[] spritesInit;
 
-        private Dictionary<int, Sprite> sprites = new Dictionary<int, Sprite>();
+        //private Dictionary<int, Sprite> sprites = new Dictionary<int, Sprite>();
 
         public Sprite UnknownNumber;
 
@@ -26,26 +26,26 @@ namespace MaximovInk.NumbersSort
         [SerializeField]
         private TextMeshProUGUI m_StepsText;
 
-
-
         public int LevelMaxSteps = 20;
         private int LevelStepsCounter = 0;
 
         private void InitDictionary()
         {
-            for (int i = 0; i < spritesInit.Length; i++)
-            {
-                sprites.Add(i, spritesInit[i]);
-            }
+         //   for (int i = 0; i < spritesInit.Length; i++)
+         //   {
+         //       sprites.Add(i, spritesInit[i]);
+         //   }
         }
 
         public Sprite GetSprite(int value)
         {
-            if (sprites.Count == 0) InitDictionary();
+            return SkinManager.Instance.GetSprite(value);
 
-            var index = Mathf.Clamp(value - 1, 0, spritesInit.Length);
+           //if (sprites.Count == 0) InitDictionary();
 
-            return sprites[index];
+           // var index = Mathf.Clamp(value - 1, 0, spritesInit.Length);
+
+            //return sprites[index];
         }
 
         public void SetMaxSteps(int steps)
@@ -61,7 +61,7 @@ namespace MaximovInk.NumbersSort
 
         public void CheckComplete()
         {
-            m_StepsText.text = $"Steps left: {Mathf.Max(0, LevelMaxSteps - LevelStepsCounter)}";
+            m_StepsText.text = $"{Mathf.Max(0, LevelMaxSteps - LevelStepsCounter)}";
 
             var containers = GetComponentsInChildren<NumbersContainer>();
 

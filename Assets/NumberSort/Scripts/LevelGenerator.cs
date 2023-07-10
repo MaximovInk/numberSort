@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace MaximovInk.NumbersSort
+namespace MaximovInk.NumberSort
 {
    
 
@@ -10,8 +10,11 @@ namespace MaximovInk.NumbersSort
     {
         public int BliskCount = 3;
 
-        private List<NumbersContainer> containers = new List<NumbersContainer>();
+        
+        public HandTutorialMovement Hand;
+        public GameObject Tutorial;
 
+        private List<NumbersContainer> containers = new List<NumbersContainer>();
         public class ContainerMixData
         {
             public int Count { get {
@@ -33,8 +36,44 @@ namespace MaximovInk.NumbersSort
 
         public int CurrentLevel = 0;
 
+        public static bool isTutorial { get; private set; } = false;
+
+        public void FinishTutorial()
+        {
+            isTutorial = false;
+            PlayerPrefs.SetInt("Tutorial", 1);
+        }
+
+        private void TutorialLogic()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                containers.Add(LevelManager.Instance.AddContainer());
+            }
+
+            containers[0].Add(5);
+            containers[0].Add(1);
+            containers[0].Add(2);
+
+            containers[1].Add(3);
+            containers[1].Add(6);
+            containers[1].Add(3);
+
+            Hand.gameObject.SetActive(true);
+            Tutorial.SetActive(true);
+
+        }
+
         private void Awake()
         {
+            isTutorial = PlayerPrefs.GetInt("Tutorial", 0) == 0;
+
+            if (isTutorial)
+            {
+                TutorialLogic();
+                return;
+            }
+
             MakeContainers();
 
             //Generate numbers and mix them

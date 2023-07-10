@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MaximovInk.NumbersSort
+namespace MaximovInk.NumberSort
 {
     public class SoundManager : MonoBehaviourSingleton<SoundManager>
     {
@@ -26,8 +26,9 @@ namespace MaximovInk.NumbersSort
 
         private void Awake()
         {
+            
             DontDestroyOnLoad(this);
-
+            SoundManager.Instance.PlaySound(SoundManager.SoundPlayType.Background);
             AudioSource.clip = BackgroundClip;
         }
 
@@ -54,6 +55,7 @@ namespace MaximovInk.NumbersSort
             switch (type)
             {
                 case SoundPlayType.Background:
+                    PlayerPrefs.SetInt("Tutorial", 0);
                     AudioSource.Play();
                     backgroundIsPlaying = true;
                     break;

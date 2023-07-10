@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace MaximovInk.NumbersSort
+namespace MaximovInk.NumberSort
 {
     public class NumberInstance : MonoBehaviour
     {

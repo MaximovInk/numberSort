@@ -1,9 +1,8 @@
-
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MaximovInk.NumbersSort
+namespace MaximovInk.NumberSort
 {
     public class Timer : MonoBehaviour
     {
@@ -18,8 +17,16 @@ namespace MaximovInk.NumbersSort
             seconds = initSeconds;
         }
 
+        public void Hide() {
+            slider.gameObject.SetActive(false);
+            infoText.gameObject.SetActive(false);
+        }
+
         private void Update()
         {
+            if (LevelGenerator.isTutorial)
+                return;
+
             seconds -= Time.deltaTime;
 
             if (seconds <= 0)
@@ -30,7 +37,7 @@ namespace MaximovInk.NumbersSort
             }
 
             slider.value = seconds / initSeconds;
-            infoText.text = $"Осталось {(int)(seconds)} секунд";
+            infoText.text = $"Left {(int)(seconds)} sec";
 
         }
     }

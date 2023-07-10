@@ -1,26 +1,29 @@
-using MaximovInk.NumbersSort;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SoundButton : MonoBehaviour
+namespace MaximovInk.NumberSort
 {
-    public Image icon;
-    public Sprite spriteOn, spriteOff;
-
-    private Button button;
-
-    private void Start()
+    public class SoundButton : MonoBehaviour
     {
-        button = GetComponent<Button>();
-        button.onClick.AddListener(() => {
-            SoundManager.Instance.ToggleAudio();
+        public Image icon;
+        public Sprite spriteOn, spriteOff;
+
+        private Button button;
+
+        private void Start()
+        {
+            button = GetComponent<Button>();
+            button.onClick.AddListener(() =>
+            {
+                SoundManager.Instance.ToggleAudio();
+                UpdateGraphic();
+            });
             UpdateGraphic();
-        });
-        UpdateGraphic();
-    }
+        }
 
-    private void UpdateGraphic()
-    {
-        icon.sprite = SoundManager.Instance.AudioIsEnabled() ? spriteOn : spriteOff;
+        private void UpdateGraphic()
+        {
+            icon.sprite = SoundManager.Instance.AudioIsEnabled() ? spriteOn : spriteOff;
+        }
     }
 }

@@ -5,7 +5,7 @@ using DG.Tweening;
 using System.Collections;
 using System;
 
-namespace MaximovInk.NumbersSort {
+namespace MaximovInk.NumberSort {
     public class NumbersContainer : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         [SerializeField]
@@ -13,6 +13,8 @@ namespace MaximovInk.NumbersSort {
 
         [SerializeField]
         private Transform m_NumbersParent;
+
+        public int Index;
 
         public int Count { get; private set; } = 0;
 
@@ -105,6 +107,11 @@ namespace MaximovInk.NumbersSort {
             return true;
         }
 
+        public Transform GetNum(int index)
+        {
+            return transform.GetChild(index);
+        }
+
         private bool isDrag = false;
 
         private Transform movingImage;
@@ -117,14 +124,26 @@ namespace MaximovInk.NumbersSort {
 
             var val = movingImage.GetComponent<NumberInstance>().Value;
 
-            if (end != null && end != this)
+            if (end != null && LevelGenerator.isTutorial && LevelGenerator.Instance.Hand.GetCurrentDstContainerIdx() != end.Index)
             {
-                bool can = end.Add(val, movingImage.localPosition);
-                if (!can)
-                    Add(val, movingImage.localPosition);
+                Add(val, movingImage.localPosition);
+
             }
             else
-                Add(val, movingImage.localPosition);
+            {
+
+                if (end != null && end != this)
+                {
+                    bool can = end.Add(val, movingImage.localPosition);
+                    if (!can)
+                        Add(val, movingImage.localPosition);
+                    else if (LevelGenerator.isTutorial)
+                        LevelGenerator.Instance.Hand.NextStep();
+                }
+                else
+                    Add(val, movingImage.localPosition);
+
+            }
 
             movingImage.DOKill();
 
@@ -141,6 +160,8 @@ namespace MaximovInk.NumbersSort {
             }
 
             UpdateCounter();
+
+           
         }
 
         private static Vector2 mouseCanvasPos = Vector2.zero;
@@ -196,6 +217,9 @@ namespace MaximovInk.NumbersSort {
 
         public void OnBeginDrag(PointerEventData eventData)
         {
+            if (LevelGenerator.isTutorial && LevelGenerator.Instance.Hand.GetCurrentSrcContainerIdx() != Index) 
+                return;
+
             if (m_NumbersParent.childCount > 0)
             {
                 isDrag = true;
@@ -203,5 +227,7 @@ namespace MaximovInk.NumbersSort {
                 movingImage.SetParent(NumberSortManager.Instance.canvas.transform);
             }
         }
+
+
     }
 }

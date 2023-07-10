@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace MaximovInk.NumbersSort
+namespace MaximovInk.NumberSort
 {
     public class LevelManager : MonoBehaviourSingleton<LevelManager>
     {
@@ -19,7 +20,7 @@ namespace MaximovInk.NumbersSort
 
         private void Awake()
         {
-            SoundManager.Instance.PlaySound(SoundManager.SoundPlayType.Background);
+            
         }
 
         public void FailLevel()
@@ -56,9 +57,19 @@ namespace MaximovInk.NumbersSort
              */
         }
 
+        private int containerCounter = 0;
+
+        public List<NumbersContainer> containers = new List<NumbersContainer>();
+
         public NumbersContainer AddContainer()
         {
             var container = Instantiate(numbersContainerPrefab, parent);
+
+            container.Index = containerCounter;
+
+            containerCounter++;
+
+            containers.Add(container);
 
             return container;
         }
